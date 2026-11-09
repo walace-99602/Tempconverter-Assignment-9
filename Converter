@@ -1,0 +1,55 @@
+"GUI-based converter that switches between celsius and fahrenheit.  Two buttons let you switch back and forth. Each box can be edited to convert back and forth. "
+
+
+from breezypythongui import EasyFrame #imports framework
+
+#1. Converter formulas
+
+#math formula for celsius to fahrenheit
+def celsius_to_fahrenheit(c):
+    return (c * 9/5) + 32
+
+#math formula for fahrenheit to celsius
+def fahrenheit_to_celsius(f):
+    return (f - 32) * 5/9
+
+
+class TempConverterGUI(EasyFrame):
+    def __init__(self):
+        EasyFrame.__init__(self, title= "Temperature Converter")
+
+        #layout for lables
+        self.addLabel(text="Celcius Input", row=0, column=0)
+        self.addLabel(text="Fahrenheit Input", row=0, column=2)
+
+        #default values to 0.0 for Celsius and 32.0 for Fahrenheit
+        self.celsius_field = self.addFloatField(value=0.0, row=1, column=0)
+        self.fahrenheit_field = self.addFloatField(value=32.0, row=1, column=2)
+
+        #arrow buttons for converting each way
+        self.addButton(text=">>>>>>", row=1, column=1, command=self.handle_c_to_f_conversion)
+        self.addButton(text="<<<<<<", row=1, column=2, command=self.handle_f_to_c_conversion)
+
+        #celsius to fahrenheit button
+    def handle_c_to_f_conversion(self):
+        try:
+            value = self.celsius_field.getNumber()
+            result = celsius_to_fahrenheit(value)
+            self.fahrenheit_field.setNumber(result)
+        except ValueError:
+            self.messagebox(title="Error", message= "Please enter a valid number.")
+
+            #fahrenheit to celsius button
+    def handle_f_to_c_conversion(self):
+        try:
+            value = self.fahrenheit_field.getNumber()
+            result = fahrenheit_to_celsius(value)
+            self.celsius_field.setNumber(result)
+        except ValueError:
+            self.messageBox(title="Error", message="Please enter a valid number.")
+
+#Launch configuration layout
+if __name__ == "__main__":
+    TempConverterGUI().mainloop()
+
+
